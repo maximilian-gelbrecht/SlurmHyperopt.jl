@@ -1,5 +1,8 @@
 module SlurmHyperopt
 
-# Write your package code here.
+include("slurm_file.jl")
+include("hyperopt.jl")
+
+export SlurmParams, SlurmHyperoptimizer
 
 end
