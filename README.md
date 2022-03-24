@@ -51,7 +51,7 @@ push!(sho, pars, res)   # add the results
 @save "hyperopt.jld2" sho # save them
 ```
 
-Last, but not least, when all jobs are finished, you can load and inspect the `Hyperoptimizer` object, with the tools from Hyperoptim.jl.
+Then submit the Slurm script that was created for you and last, but not least, when all jobs are finished, you can load and inspect the `Hyperoptimizer` object, with the tools from Hyperopt.jl.
 
 
 
