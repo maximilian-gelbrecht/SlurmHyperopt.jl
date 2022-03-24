@@ -62,9 +62,9 @@ function generate_slurm_file(p::SlurmParams, N_jobs)
     write_slurm_line(f, "#SBATCH --output=", output)
 
     if isnothing(p.error)
-        output = string(p.job_name,"-%a-%A-%j-%N.err")
+        error = string(p.job_name,"-%a-%A-%j-%N.err")
     end 
-    write_slurm_line(f, "#SBATCH --error=", p.error)
+    write_slurm_line(f, "#SBATCH --error=", error)
     write_slurm_line(f, "#SBATCH --nodes=", p.nodes)
     write_slurm_line(f, "#SBATCH --ntasks-per-node=", p.ntasks_per_node)
     write_slurm_line(f, "#SBATCH --partition=", p.partition)
