@@ -29,6 +29,8 @@ using Test
     N_jobs = 10
     ho = Hyperoptimizer(N_jobs, a=1:10, b=[true, false], c=randn(100))
     sho = SlurmHyperoptimizer(ho, params)
+
+    @test !isnothing(sho[1]) 
     
     @test true
 end

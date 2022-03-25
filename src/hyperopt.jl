@@ -32,10 +32,10 @@ end
 
 Very hacky way how to index a Hyperoptimizer object.
 """
-function get_index(ho::SlurmHyperoptimizer, i::Integer)
+function getindex(ho::SlurmHyperoptimizer, i::Integer)
     @assert i <= ho.ho.iterations
 
-    for (ii,iho) ∈ enumerate(ho)
+    for (ii,iho) ∈ enumerate(ho.ho)
         if i==ii
             return iho 
         end 

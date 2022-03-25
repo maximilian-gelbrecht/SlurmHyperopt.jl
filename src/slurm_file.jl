@@ -77,7 +77,6 @@ function generate_slurm_file(p::SlurmParams, N_jobs)
         write_slurm_line(f, "#SBATCH --array=1-", N_jobs)
     end
 
-    write_slurm_line(f, "#SBATCH --array=1-",N_jobs)
     write_slurm_line(f, "#SBATCH --mail-type=", p.mail_type)
     write_slurm_line(f, "#SBATCH --mail-user=", p.mail_user)
 
