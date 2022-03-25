@@ -57,12 +57,12 @@ function generate_slurm_file(p::SlurmParams, N_jobs)
     write_slurm_line(f, "#SBATCH --account=", p.account)
 
     if isnothing(p.output)
-        output = string(p.job_name,"-%a-%A-%j-%N.out")
+        output = string(p.job_name,"-%a-%A-%j.out")
     end 
     write_slurm_line(f, "#SBATCH --output=", output)
 
     if isnothing(p.error)
-        error = string(p.job_name,"-%a-%A-%j-%N.err")
+        error = string(p.job_name,"-%a-%A-%j.err")
     end 
     write_slurm_line(f, "#SBATCH --error=", error)
     write_slurm_line(f, "#SBATCH --nodes=", p.nodes)
