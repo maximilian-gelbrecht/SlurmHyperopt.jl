@@ -6,7 +6,7 @@ import Base.push!, Base.getindex
 
 Creates a Slurm Job Array submission file and a Hyperoptimizer instance for your Hyperoptimizer needs. Takes the same arguments as Hyperoptimizer from Hyperopt + the keyword argument slurm_params.
 """
-struct SlurmHyperoptimizer
+mutable struct SlurmHyperoptimizer
     ho::Hyperoptimizer
     slurm_params::SlurmParams
 
