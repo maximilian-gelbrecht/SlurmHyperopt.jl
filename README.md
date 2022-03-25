@@ -10,11 +10,11 @@ First, in one script set up the hyperparameter optimization and generate the Slu
 using Hyperopt, SlurmHyperopt, JLD2 
 
 extra_calls = "echo \"------------------------------------------------------------\"
-    echo \"SLURM JOB ID: \$SLURM_JOBID\"
-    echo \"\$SLURM_NTASKS tasks\"
-    echo \"------------------------------------------------------------\"
+echo \"SLURM JOB ID: \$SLURM_JOBID\"
+echo \"\$SLURM_NTASKS tasks\"
+echo \"------------------------------------------------------------\"
     
-    module load julia/1.7.0"
+module load julia/1.7.0"
 
 julia_call = "julia test.jl \$SLURM_JOB_NAME \$SLURM_TASK_ID"
 
