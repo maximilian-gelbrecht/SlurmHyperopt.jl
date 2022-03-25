@@ -40,6 +40,8 @@ For details regarding `Hyperoptimizer` please see the Hyperopt.jl package. In th
 `SlurmHyperoptimizer` object, do your regular computation, and then save the result in the end. 
 
 ```julia 
+using JLD2, Hyperopt, SlurmHyperopt
+
 @load "hyperopt.jld2" sho 
 pars = sho[ARGS[2]]  # in the Julia call, $SLURM_TASK_ID is second, that's why we use ARGS[2] here
 pars # is a tuple of all hyperparameters set in the script above with the Hyperoptimizer struct
