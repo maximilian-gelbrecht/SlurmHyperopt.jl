@@ -16,7 +16,7 @@ echo \"------------------------------------------------------------\"
     
 module load julia/1.7.0"
 
-julia_call = "julia test.jl \$SLURM_JOB_NAME \$SLURM_TASK_ID"
+julia_call = "julia test.jl \$SLURM_JOB_NAME \$SLURM_ARRAY_TASK_ID"
 
 slurm_file = "test_script.sh"
 
