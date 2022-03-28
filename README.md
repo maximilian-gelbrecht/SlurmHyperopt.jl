@@ -1,6 +1,6 @@
 # SlurmHyperopt.jl
 
-Based on Hyperopt.jl, this small package generates Slurm HPC manager job array scripts for hyperparameter optimization.
+This small package generates Slurm HPC manager job array scripts for hyperparameter optimization. Currently under rewriting! Not working!
 
 ## Usage 
 

@@ -1,5 +1,4 @@
 using SlurmHyperopt
-using Hyperopt
 using Test
 
 # not a good test yet (it really only checks if the code is running, not if it is doing anything useful)
@@ -27,10 +26,10 @@ using Test
                     file_path=slurm_file)
 
     N_jobs = 10
-    ho = Hyperoptimizer(N_jobs, a=1:10, b=[true, false], c=randn(100))
-    sho = SlurmHyperoptimizer(ho, params)
+    samp = RandomSampler(a = LinRange(1,5,100), b = [true, false], c = exp10.(LinRange(-1,3,100)))
+    ho = SlurmHyperoptimizer(N_jobs, samp, params) 
 
-    @test !isnothing(sho[1]) 
+    @test !isnothing(ho[1]) 
     
     @test true
 end

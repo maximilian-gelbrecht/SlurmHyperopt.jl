@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [deps]
 Hyperopt = "93e5fe13-2215-51db-baaf-2e9a34fb2712"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 
 [compat]
 julia = "1.7"
