@@ -31,6 +31,7 @@ function push!(ho::SlurmHyperoptimizer, pars, res, additonal_res=nothing)
     push!(ho.pars, pars)
     push!(ho.res, res)
     push!(ho.additional_res, additonal_res)
+    ho
 end
 
 
