@@ -1,3 +1,4 @@
+# To-DO: For hyperband and bayasian, do a version where every k jobs, the results are already merged
 
 import Base.push!, Base.getindex
 using JLD2
@@ -66,14 +67,14 @@ Very hacky way how to index a Hyperoptimizer object, that respect its history, i
 """
 function Base.getindex(ho::SlurmHyperoptimizer, i::Integer)
     @assert i <= ho.N_samples
-    return ho.sampler(ho.pars, ho.res)
+    return ho.sampler(pars.(ho.results), res.(ho.results))
 end
 
 function Base.iterate(iter::SlurmHyperoptimizer, state=1)
     if state>iter.N
         return nothing
     else  
-        return (iter.sampler(iter.pars, iter.res), state+1)
+        return (iter.sampler(pars.(iter.results), res.(iter.results)), state+1)
     end
 end
 
