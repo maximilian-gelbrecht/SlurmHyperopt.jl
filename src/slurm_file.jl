@@ -12,6 +12,7 @@ Holds all user defined parameters for the Slurm script. The constructor works wi
     * `gres = nothing`
     * `nodes = nothing`
     * `ntasks_per_node = nothing`
+    * `cpus-per-task = nothing`
     * `workdir = nothing`
     * `mail_type = nothing`
     * `mail_user = nothing`
@@ -31,6 +32,7 @@ Base.@kwdef struct SlurmParams
     gres = nothing 
     nodes = nothing
     ntasks_per_node = nothing 
+    cpus_per_task = nothing 
     workdir = nothing 
     mail_type = nothing 
     mail_user = nothing
@@ -67,6 +69,7 @@ function generate_slurm_file(p::SlurmParams, N_jobs)
     write_slurm_line(f, "#SBATCH --error=", error)
     write_slurm_line(f, "#SBATCH --nodes=", p.nodes)
     write_slurm_line(f, "#SBATCH --ntasks-per-node=", p.ntasks_per_node)
+    write_slurm_line(f, "#SBATCH --cpus-per-task=", p.cpus_per_task)
     write_slurm_line(f, "#SBATCH --partition=", p.partition)
     write_slurm_line(f, "#SBATCH --gres=", p.gres)
     write_slurm_line(f, "#SBATCH --workdir=", p.workdir)
