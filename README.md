@@ -1,6 +1,6 @@
 # SlurmHyperopt.jl
 
-This small package generates Slurm HPC manager job array scripts for hyperparameter optimization. Currently under rewriting! Not working!
+This small package generates Slurm HPC manager job array scripts for hyperparameter optimization. 
 
 ## Usage 
 
@@ -30,13 +30,12 @@ params = SlurmParams(qos="short",
                     file_path=slurm_file)
 
 N_jobs = 10
-ho = Hyperoptimizer(N_jobs, a=1:10, b=[true, false], c=randn(100))
-sho = SlurmHyperoptimizer(ho, params)
+sampler = RandomSampler(N_1=5:15, N_2=5:15, N_3=5:15, N_4=5:15, activation=["relu","selu","swish","tanh"])
+sho = SlurmHyperoptimizer(N_jobs, sampler, params)
 
 @save "hyperopt.jld2" sho
 ```
-
-For details regarding `Hyperoptimizer` please see the Hyperopt.jl package. In the Julia script that should be optimized, load the 
+Here, also the Hyperparameter sampling method, a `RandomSampler` is initialized and the ranges from which hyperparameters are chosen specified. In the Julia script that should be optimized, load the 
 `SlurmHyperoptimizer` object, do your regular computation, and then save the result in the end. 
 
 ```julia 
@@ -45,16 +44,26 @@ using JLD2, Hyperopt, SlurmHyperopt
 @load "hyperopt.jld2" sho 
 i_job = parse(Int,ARGS[2])  # in the Julia call, $SLURM_TASK_ID is second, that's why we use ARGS[2] here
 pars = sho[i_job]   
-pars # is a tuple of all hyperparameters set in the script above with the Hyperoptimizer struct
+pars # is a named tuple of all hyperparameters set in the script above with the Hyperoptimizer struct
 
 res = some_computation(pars)
 
-@load "hyperopt.jld2" sho # reload the hyperparameter object again (maybe some parallel process wrote into it in the meanwhile)
-push!(sho, pars, res)   # add the results 
-@save "hyperopt.jld2" sho # save them
+SlurmHyperopt.save_result(sho, HyperoptResults(pars=pars, res=l), i_job)
 ```
 
-Then submit the Slurm script that was created for you and last, but not least, when all jobs are finished, you can load and inspect the `Hyperoptimizer` object, with the tools from Hyperopt.jl.
+Then submit the Slurm script that was created for you and last, but not least, when all jobs are finished, you first have to merge all the results of all jobs and then you can evaluate the optimiziaton:
+
+```julia 
+using JLD2, SlurmHyperopt
+
+@load "hyperopt.jld2" sho
+merge_results!(sho)
+
+pars = get_params(sho)
+res = get_results(sho)
+
+# your evaluation here 
+```
 
 
 
