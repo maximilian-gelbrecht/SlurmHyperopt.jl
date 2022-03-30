@@ -67,14 +67,14 @@ Very hacky way how to index a Hyperoptimizer object, that respect its history, i
 """
 function Base.getindex(ho::SlurmHyperoptimizer, i::Integer)
     @assert i <= ho.N_samples
-    return ho.sampler(pars.(ho.results), res.(ho.results))
+    return ho.sampler(ho.results)
 end
 
 function Base.iterate(iter::SlurmHyperoptimizer, state=1)
     if state>iter.N
         return nothing
     else  
-        return (iter.sampler(pars.(iter.results), res.(iter.results)), state+1)
+        return (iter.sampler(ho.results), state+1)
     end
 end
 
@@ -87,7 +87,7 @@ end
 
 RandomSampler(;kwargs...) = RandomSampler(kwargs, keys(kwargs))
 
-function (samp::RandomSampler)(pars, res)
+function (samp::RandomSampler)(results)
     Dict([key => rand(samp.par_dic[key]) for key in samp.par_names]...)
 end 
 
