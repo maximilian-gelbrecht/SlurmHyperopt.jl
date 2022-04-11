@@ -47,7 +47,8 @@ end
 
 Generates the Slurm script file based on a `SlurmParams` instance.
 """
-function generate_slurm_file(p::SlurmParams, N_jobs)
+function generate_slurm_file(p::SlurmParams, N_jobs::Integer)
+    N_jobs = string(N_jobs)
 
     touch(p.file_path)
     f = open(p.file_path, "w")
@@ -75,7 +76,7 @@ function generate_slurm_file(p::SlurmParams, N_jobs)
     write_slurm_line(f, "#SBATCH --workdir=", p.workdir)
 
     if !(isnothing(p.parallel_jobs))
-        write(f, "#SBATCH --array=1-", N_jobs,"%", p.parallel_jobs)
+        write(f, "#SBATCH --array=1-", N_jobs,"%", p.parallel_jobs,"\n")
     else 
         write_slurm_line(f, "#SBATCH --array=1-", N_jobs)
     end
