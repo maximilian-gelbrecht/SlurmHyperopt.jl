@@ -7,7 +7,7 @@ This small package generates Slurm HPC manager job array scripts for hyperparame
 First, in one script set up the hyperparameter optimization and generate the Slurm job array file. One has to set some basic properties of the Slurm file with the `SlurmParams`, the call of the Julia script with `julia_call`, the path where the slurm file should be created and can add extra lines of code like load modules etc with `extra_calls`. 
 
 ```julia 
-using Hyperopt, SlurmHyperopt, JLD2 
+using SlurmHyperopt, JLD2 
 
 extra_calls = "echo \"------------------------------------------------------------\"
 echo \"SLURM JOB ID: \$SLURM_JOBID\"
@@ -35,7 +35,7 @@ sho = SlurmHyperoptimizer(N_jobs, sampler, params)
 
 @save "hyperopt.jld2" sho
 ```
-Here, also the Hyperparameter sampling method, a `RandomSampler` is initialized and the ranges from which hyperparameters are chosen specified. In the Julia script that should be optimized, load the 
+Here, also the Hyperparameter sampling method, a `RandomSampler`, is initialized and the ranges from which hyperparameters are chosen are specified. In the Julia script that should be optimized, load the 
 `SlurmHyperoptimizer` object, do your regular computation, and then save the result in the end. 
 
 ```julia 
