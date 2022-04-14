@@ -54,13 +54,15 @@ SlurmHyperopt.save_result(sho, HyperoptResults(pars=pars, res=l), i_job)
 Then submit the Slurm script that was created for you and last, but not least, when all jobs are finished, you first have to merge all the results of all jobs and then you can evaluate the optimiziaton:
 
 ```julia 
-using JLD2, SlurmHyperopt
+using JLD2, SlurmHyperopt, DataFrames
 
 @load "hyperopt.jld2" sho
 merge_results!(sho)
 
-pars = get_params(sho)
-res = get_results(sho)
+pars = get_params(sho) # get all the parameters 
+res = get_results(sho) # get only the results 
+
+df = DataFrame(sho) # return the pars and results as a DataFrame
 
 # your evaluation here 
 ```

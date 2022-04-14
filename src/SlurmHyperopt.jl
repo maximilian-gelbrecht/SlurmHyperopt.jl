@@ -6,6 +6,6 @@ include("slurm_file.jl")
 include("hyperopt.jl")
 
 export SlurmParams, SlurmHyperoptimizer, RandomSampler, HyperoptResults
-export merge_results!
+export merge_results!, get_params, get_results, save_result
 
 end

@@ -75,7 +75,7 @@ end
 Returns the results and parameters as a DataFrame
 """
 function DataFrames.DataFrame(sho::SlurmHyperoptimizer) 
-    DataFrame(Dict([key => get_param(sho, key) for key in samp.par_names]...,:results => get_results.(sho)))
+    DataFrame(Dict([key => get_param(sho, key) for key in sho.sampler.par_names]...,:results => get_results(sho)))
 end
 
 """

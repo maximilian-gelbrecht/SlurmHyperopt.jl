@@ -1,4 +1,4 @@
-using SlurmHyperopt
+using SlurmHyperopt, DataFrames
 using Test
 
 # not a good test yet (it really only checks if the code is running, not if it is doing anything useful)
@@ -29,7 +29,26 @@ using Test
     samp = RandomSampler(a = LinRange(1,5,100), b = [true, false], c = exp10.(LinRange(-1,3,100)))
     ho = SlurmHyperoptimizer(N_jobs, samp, params) 
 
-    @test !isnothing(ho[1]) 
+    # fill the results with some values 
+    ress = rand(N_jobs)
+    for i ∈ 1:N_jobs 
+
+        pars = ho[i]
+        res = ress[i]
+
+        SlurmHyperopt.save_result(ho, HyperoptResults(pars=pars, res=res), i)
+    end 
+
+    merge_results!(ho)
     
-    @test true
+
+    pars = get_params(ho) # get all the parameters 
+    res = get_results(ho) # get only the results 
+
+    @test res == ress
+    df = DataFrame(ho)
+
+    @test typeof(df) <: DataFrame
+    @test size(df) == (10,4)
+    @test df[!,"results"] == res
 end
