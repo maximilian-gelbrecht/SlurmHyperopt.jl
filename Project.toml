@@ -4,6 +4,7 @@ authors = ["Maximilian Gelbrecht <maximiliaan.gelbrecht@posteo.de> and contribut
 version = "0.3.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 
 [compat]

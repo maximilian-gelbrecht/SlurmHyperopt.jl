@@ -1,7 +1,7 @@
 # To-DO: For hyperband and bayasian, do a version where every k jobs, the results are already merged
 
 import Base.push!, Base.getindex
-using JLD2
+using JLD2, DataFrames
 
 Base.@kwdef struct HyperoptResults{S,T,V}
     pars::S
@@ -59,6 +59,24 @@ end
 
 get_results(sho::SlurmHyperoptimizer) = res.(sho.results)
 get_params(sho::SlurmHyperoptimizer) = pars.(sho.results)
+
+function get_param(sho::SlurmHyperoptimizer, key::Symbol)
+    if key ∈ sho.sampler.par_names 
+        params = pars.(sho.results)
+        return [i_param[key] for i_param ∈ params]
+    else 
+        error("Parameter name not found.")
+    end
+end
+
+"""
+    DataFrames(sho::SlurmHyperoptimizer)
+
+Returns the results and parameters as a DataFrame
+"""
+function DataFrames.DataFrame(sho::SlurmHyperoptimizer) 
+    DataFrame(Dict([key => get_param(sho, key) for key in samp.par_names]...,:results => get_results.(sho)))
+end
 
 """
     get_index(ho::SlurmHyperoptimizer, i::Integer)
