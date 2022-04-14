@@ -57,7 +57,8 @@ Then submit the Slurm script that was created for you and last, but not least, w
 using JLD2, SlurmHyperopt, DataFrames
 
 @load "hyperopt.jld2" sho
-merge_results!(sho)
+merge_results!(sho) # this command deletes the temporary files, so better save sho again
+@save "hyperopt.jld2" sho
 
 pars = get_params(sho) # get all the parameters 
 res = get_results(sho) # get only the results 
