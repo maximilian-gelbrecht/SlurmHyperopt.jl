@@ -25,7 +25,7 @@ mutable struct SlurmHyperoptimizer
     temp_dir
 end
 
-function SlurmHyperoptimizer(N_samples::Integer, sampler::AbstractHyperparameterSampler, slurm_params::SlurmParams, temp_dir="temp/")
+function SlurmHyperoptimizer(N_samples::Integer, sampler::AbstractHyperparameterSampler, slurm_params::SlurmParams, temp_dir="temp-hyperopt/")
     generate_slurm_file(slurm_params, N_samples)    
     mkpath(temp_dir)
     results = Vector{HyperoptResults}(undef, N_samples)
@@ -38,6 +38,7 @@ end
 (Temporally) saves the results `res` of job `i`. Results are later merged with `merge_results!`.
 """
 function save_result(sho::SlurmHyperoptimizer, res::HyperoptResults, i::Integer)
+    mkpath(sho.temp_dir) # make sure the folder is really there
     save_path = string(sho.temp_dir,"res-",i,".jld2")
     JLD2.@save save_path res 
 end 
