@@ -1,6 +1,6 @@
 # To-DO: For hyperband and bayasian, do a version where every k jobs, the results are already merged
 
-import Base.push!, Base.getindex
+import Base.push!, Base.getindex, Base.show
 using JLD2, DataFrames
 
 Base.@kwdef struct HyperoptResults{S,T,V}
@@ -96,6 +96,8 @@ function Base.iterate(iter::SlurmHyperoptimizer, state=1)
         return (iter.sampler(ho.results), state+1)
     end
 end
+
+Base.show(io::IO, ho::SlurmHyperoptimizer) = "SlurmHyperoptimizer"
 
 # reimplement RandomSampler
 abstract type AbstractHyperparameterSampler end
