@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+SlurmHyperopt = "cc751f0e-ca47-473a-90b9-8165154f6533"
