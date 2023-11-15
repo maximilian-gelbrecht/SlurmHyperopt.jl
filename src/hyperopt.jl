@@ -57,6 +57,7 @@ function merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=true)
             sho.results[i] = res 
         else 
             @warn "File number %i not found" i
+            sho.results[i] = HyperoptResults(nothing, nothing, nothing)
         end
     end
     
