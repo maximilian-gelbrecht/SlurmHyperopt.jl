@@ -48,7 +48,7 @@ end
 
 Merges the results and store them in the `sho.results` field. Also deletes the temporal files. 
 """
-function merge_results!(sho::SlurmHyperoptimizer, delete_temp_files=true)
+function merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=true)
 
     for i ∈ 1:sho.N_samples
         save_path = string(sho.temp_dir,"res-",i,".jld2")
