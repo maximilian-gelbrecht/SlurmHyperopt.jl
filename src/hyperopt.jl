@@ -3,10 +3,11 @@
 import Base.push!, Base.getindex, Base.show
 using JLD2, DataFrames
 
-Base.@kwdef struct HyperoptResults{S,T,V}
+Base.@kwdef struct HyperoptResults{S,T,V,P}
     pars::S
     res::T 
     additonal_res::V = nothing
+    model_pars::P = nothing
 end
 
 res(r::HyperoptResults) = r.res 
@@ -57,7 +58,7 @@ function merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=true)
             sho.results[i] = res 
         else 
             @warn "File number %i not found" i
-            sho.results[i] = HyperoptResults(nothing, nothing, nothing)
+            sho.results[i] = HyperoptResults(nothing, nothing, nothing, nothing)
         end
     end
     
