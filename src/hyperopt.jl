@@ -45,13 +45,15 @@ function save_result(sho::SlurmHyperoptimizer, res::HyperoptResults, i::Integer)
 end 
 
 """
-    merge_results!(sho::SlurmHyperoptimizer)
+    merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=false, N_samples::Union{Nothing, Int}=nothing)
 
-Merges the results and store them in the `sho.results` field. Also deletes the temporal files. 
+Merges the results and store them in the `sho.results` field. Also deletes the temporal files if `delete_temp_files==true`. In case `N_samples` is provided, the routine tries to merge that many files, if `nothing` is provided it takes the `N_samples` set in `sho`.
 """
-function merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=true)
+function merge_results!(sho::SlurmHyperoptimizer; delete_temp_files=false, N_samples::Union{Nothing, Int}=nothing)
 
-    for i ∈ 1:sho.N_samples
+    N_samples = isnothing(N_samples) ? sho.N_samples : N_samples
+    
+    for i ∈ 1:N_samples
         save_path = string(sho.temp_dir,"res-",i,".jld2")
         if isfile(save_path)
             JLD2.@load save_path res 
