@@ -40,7 +40,7 @@ sho = SlurmHyperoptimizer(N_jobs, sampler, params)
 @save "hyperopt.jld2" sho
 ```
 Here, also the Hyperparameter sampling method, a `RandomSampler`, is initialized and the ranges from which hyperparameters are chosen are specified. In the Julia script that should be optimized, load the 
-`SlurmHyperoptimizer` object, do your regular computation, and then save the result in the end. 
+`SlurmHyperoptimizer` object, do your regular computation, and then save the result in the end. Alternatively a `ProductSampler` can be chosen that will iterate over all parameter configurations specified. 
 
 ```julia 
 using JLD2, Hyperopt, SlurmHyperopt
