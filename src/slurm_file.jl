@@ -14,6 +14,7 @@ Holds all user defined parameters for the Slurm script. The constructor works wi
     * `ntasks_per_node = nothing`
     * `cpus-per-task = nothing`
     * `workdir = nothing`
+    * `chdir = nothing`
     * `mail_type = nothing`
     * `mail_user = nothing`
     * `parallel_jobs = nothing`: how many jobs can run at the same time?
@@ -34,6 +35,7 @@ Base.@kwdef struct SlurmParams
     ntasks_per_node = nothing 
     cpus_per_task = nothing 
     workdir = nothing 
+    chdir = nothing
     mail_type = nothing 
     mail_user = nothing
     parallel_jobs = nothing # how many jobs can run at the same time?
@@ -74,6 +76,7 @@ function generate_slurm_file(p::SlurmParams, N_jobs::Integer)
     write_slurm_line(f, "#SBATCH --partition=", p.partition)
     write_slurm_line(f, "#SBATCH --gres=", p.gres)
     write_slurm_line(f, "#SBATCH --workdir=", p.workdir)
+    write_slurm_line(f, "#SBATCH --chdir=", p.chdir)
 
     if !(isnothing(p.parallel_jobs))
         write(f, "#SBATCH --array=1-", N_jobs,"%", p.parallel_jobs,"\n")
