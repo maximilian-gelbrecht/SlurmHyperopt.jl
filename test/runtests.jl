@@ -51,4 +51,10 @@ using Test
     @test typeof(df) <: DataFrame
     @test size(df) == (10,4)
     @test df[!,"results"] == res
+
+    samp = ProductSampler(a = [1, 2], b = [3, 4])
+    @test samp(nothing, 1) == Dict(:a=>1, :b=>3)
+    @test samp(nothing, 2) == Dict(:a=>2, :b=>3)
+    @test samp(nothing, 3) == Dict(:a=>1, :b=>4)
+    @test samp(nothing, 4) == Dict(:a=>2, :b=>4)
 end

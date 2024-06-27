@@ -103,14 +103,14 @@ Very hacky way how to index a Hyperoptimizer object, that respect its history, i
 """
 function Base.getindex(ho::SlurmHyperoptimizer, i::Integer)
     @assert i <= ho.N_samples
-    return ho.sampler(ho.results)
+    return ho.sampler(ho.results, i)
 end
 
 function Base.iterate(iter::SlurmHyperoptimizer, state=1)
     if state>iter.N
         return nothing
     else  
-        return (iter.sampler(ho.results), state+1)
+        return (iter.sampler(ho.results, state), state+1)
     end
 end
 
@@ -118,6 +118,12 @@ Base.show(io::IO, ho::SlurmHyperoptimizer) = "SlurmHyperoptimizer"
 
 # reimplement RandomSampler
 abstract type AbstractHyperparameterSampler end
+
+"""
+    RandomSampler(;kwargs...)
+
+Draws a hyperparameters config from the `kwargs` randomly.
+"""
 struct RandomSampler <: AbstractHyperparameterSampler
     par_dic
     par_names 
@@ -125,7 +131,24 @@ end
 
 RandomSampler(;kwargs...) = RandomSampler(kwargs, keys(kwargs))
 
-function (samp::RandomSampler)(results)
+function (samp::RandomSampler)(results, i)
     Dict([key => rand(samp.par_dic[key]) for key in samp.par_names]...)
 end 
 
+"""
+    ProductSampler(; kwargs...)
+
+Forms a Iterators.product of all kwargs and in this way an iterator over the first `N_samples` of the complete hyperparameter space. 
+"""
+struct ProductSampler <: AbstractHyperparameterSampler
+    par_dic 
+    par_names 
+    product_iterator 
+end 
+
+ProductSampler(;kwargs...) = ProductSampler(kwargs, keys(kwargs), reshape(collect(Iterators.product(values(kwargs)...)),:))
+
+function (samp::ProductSampler)(results, i)
+    vals = samp.product_iterator[i]
+    Dict([key => vals[j] for (j,key) in enumerate(samp.par_names)]...)
+end 
